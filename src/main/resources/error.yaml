@@ -1,0 +1,49 @@
+openapi: 3.0.3
+info:
+  title: Title
+  description: Title
+  version: 1.0.0
+servers:
+  - url: 'https'
+
+components:
+  schemas:
+    Parent:
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/Child1'
+        - $ref: '#/components/schemas/Child2'
+      discriminator:
+        propertyName: discriminator
+      required:
+        - discriminator
+      properties:
+        discriminator:
+          type: string
+    Child1:
+      type: object
+      properties:
+        discriminator:
+          type: string
+        prop1:
+          type: string
+    Child2:
+      type: object
+      properties:
+        discriminator:
+          type: string
+        prop2:
+          type: string
+paths:
+  /:
+    get:
+      operationId: test
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Parent'
+
